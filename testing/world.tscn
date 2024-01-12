@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhrj613ojghwl"]
+
+[ext_resource type="PackedScene" uid="uid://152medcdymy7" path="res://player/player.tscn" id="1_ypkco"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_awtmp"]
+size = Vector2(469, 122)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a065p"]
+size = Vector2(465.25, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x56pk"]
+size = Vector2(136, 144)
+
+[node name="world" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(522.5, 491)
+shape = SubResource("RectangleShape2D_awtmp")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(991.375, 512)
+shape = SubResource("RectangleShape2D_a065p")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1156, 400)
+shape = SubResource("RectangleShape2D_x56pk")
+
+[node name="player" parent="." instance=ExtResource("1_ypkco")]
+position = Vector2(624, 320)
+
+[node name="panels" type="Node" parent="."]
+
+[node name="Panel" type="Panel" parent="panels"]
+offset_left = 288.0
+offset_top = 432.0
+offset_right = 760.0
+offset_bottom = 552.0
+
+[node name="Panel2" type="Panel" parent="panels"]
+offset_left = 760.0
+offset_top = 472.0
+offset_right = 1224.0
+offset_bottom = 552.0
+
+[node name="Panel3" type="Panel" parent="panels"]
+offset_left = 1088.0
+offset_top = 328.0
+offset_right = 1224.0
+offset_bottom = 472.0

@@ -1,0 +1,59 @@
+[gd_scene load_steps=3 format=3 uid="uid://cawmvi1f4ja12"]
+
+[ext_resource type="Script" path="res://main menu/settings.gd" id="1_u0egh"]
+[ext_resource type="PackedScene" uid="uid://w58rbyimqdb8" path="res://main menu/input_settings.tscn" id="2_1k2ex"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u0egh")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="buttons" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="back button" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
+layout_mode = 2
+text = "back"
+
+[node name="spacer" type="Control" parent="MarginContainer/VBoxContainer/buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+
+[node name="save button" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
+layout_mode = 2
+text = "Save Settings"
+
+[node name="gap" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.01
+
+[node name="TabContainer" type="TabContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" parent="MarginContainer/VBoxContainer/TabContainer" instance=ExtResource("2_1k2ex")]
+layout_mode = 2
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/back button" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/save button" to="." method="_on_save_button_pressed"]

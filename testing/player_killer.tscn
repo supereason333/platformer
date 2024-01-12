@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://4l7sp86j23r1"]
+
+[ext_resource type="Script" path="res://testing/player_killer.gd" id="1_jsl0r"]
+[ext_resource type="Texture2D" uid="uid://dkmfeanjn22sv" path="res://testing/Regular_Spike.webp" id="2_tns5b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mwk6a"]
+size = Vector2(32, 24)
+
+[node name="player killer" type="Area2D"]
+script = ExtResource("1_jsl0r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_mwk6a")
+
+[node name="RegularSpike" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, -8)
+scale = Vector2(0.168421, 0.169014)
+texture = ExtResource("2_tns5b")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

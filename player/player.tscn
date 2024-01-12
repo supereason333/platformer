@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://152medcdymy7"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_f2cj1"]
+[ext_resource type="Texture2D" uid="uid://dqqef5a4ek8al" path="res://player/stickman.png" id="2_10ltk"]
+[ext_resource type="PackedScene" uid="uid://bvig5a33j0r5d" path="res://player/gui.tscn" id="3_fcywf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ftwh5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_10ltk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_41l8g"]
+radius = 24.0
+height = 112.0
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_f2cj1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.211921, 0.211921)
+sprite_frames = SubResource("SpriteFrames_ftwh5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_41l8g")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+
+[node name="GUI" parent="." instance=ExtResource("3_fcywf")]

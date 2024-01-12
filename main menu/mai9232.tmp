@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcd4ykyd3yhit"]
+
+[sub_resource type="GDScript" id="GDScript_kw1q6"]
+script/source = "extends Node2D
+
+
+func _ready():
+	pass # Replace with function body.
+
+func _on_play_button_pressed():
+	ProjectSettings.get_setting(\"display/window/mode\")
+	get_tree().change_scene_to_file(\"res://testing/world.tscn\")
+
+
+func _on_quit_button_pressed():
+	get_tree().quit()
+
+
+func _on_settings_button_pressed():
+	get_tree().change_scene_to_file(\"res://main menu/settings.tscn\")
+"
+
+[node name="main menu" type="Node2D"]
+script = SubResource("GDScript_kw1q6")
+
+[node name="play button" type="Button" parent="."]
+offset_left = 96.0
+offset_top = 136.0
+offset_right = 320.0
+offset_bottom = 296.0
+text = "Play
+"
+
+[node name="quit button" type="Button" parent="."]
+offset_left = 96.0
+offset_top = 360.0
+offset_right = 320.0
+offset_bottom = 440.0
+text = "Quit
+"
+
+[node name="settings button" type="Button" parent="."]
+offset_left = 840.0
+offset_top = 360.0
+offset_right = 1070.0
+offset_bottom = 440.0
+text = "Settings
+"
+
+[connection signal="pressed" from="play button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="quit button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="settings button" to="." method="_on_settings_button_pressed"]
