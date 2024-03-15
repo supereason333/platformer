@@ -25,6 +25,10 @@ GlobalUtils="*res://global/global utils.gd"
 
 window/stretch/mode="viewport"
 
+[dotnet]
+
+project/assembly_name="platformer"
+
 [input]
 
 left_key={

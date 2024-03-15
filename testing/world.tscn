@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhrj613ojghwl"]
+[gd_scene load_steps=6 format=3 uid="uid://dhrj613ojghwl"]
 
 [ext_resource type="PackedScene" uid="uid://152medcdymy7" path="res://player/player.tscn" id="1_ypkco"]
+[ext_resource type="PackedScene" uid="uid://4l7sp86j23r1" path="res://testing/player_killer.tscn" id="2_fr52p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_awtmp"]
 size = Vector2(469, 122)
@@ -49,3 +50,6 @@ offset_left = 1088.0
 offset_top = 328.0
 offset_right = 1224.0
 offset_bottom = 472.0
+
+[node name="player killer" parent="." instance=ExtResource("2_fr52p")]
+position = Vector2(791, 455)
