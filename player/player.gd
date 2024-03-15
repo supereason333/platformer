@@ -17,7 +17,7 @@ var dash_dir = Vector2(0, 0)
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
-	get_node("GUI").update_gui()
+	$GUI.update_gui()
 
 func _process(delta):
 	if frames_since_damage < GlobalPlayer.immunity_frames:
@@ -89,13 +89,16 @@ func damage(damage: int,reset: bool, direction: int):
 	if frames_since_damage >= GlobalPlayer.immunity_frames:
 		frames_since_damage = 0
 		knockback(direction)
-		if GlobalPlayer.health - damage <= 0:
+		if GlobalPlayer.player_health - damage <= 0:
 			respawn_to_spawn()
 		else:
-			GlobalPlayer.health - damage
+			GlobalPlayer.player_health - damage
 		
 		if reset:
 			reset()
+		load("res://player/gui.gd").update_gui()
+		print_debug(damage)
+		print_debug(GlobalPlayer.player_health)
 
 func knockback(direction):
 	velocity.y -= 20
