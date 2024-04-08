@@ -11,8 +11,4 @@ func _process(delta):
 
 
 func _on_body_entered(body):
-	if body.name == "player":
-		if body.position.x > position.x:
-			Player.damage(1, true, 1) 
-		else:
-			Player.damage(1, true, -1)
+	pass

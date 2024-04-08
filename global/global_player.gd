@@ -1,6 +1,6 @@
 extends Node
 
-var player_health = 5
+var player_max_health = 5
 var player_money = 0
 var player_jumps = 1
 var player_dash = true

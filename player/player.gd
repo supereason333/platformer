@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal health_updated(health)
+signal killed()
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const JUMP_FRAMES_MAX = 15
@@ -12,6 +15,10 @@ var frame_since_dash = 0
 var jump_frames = 0
 var dash_frames = 6969
 var dash_dir = Vector2(0, 0)
+
+var health = GlobalPlayer.player_max_health: 
+	set(value): 
+		_set_health(value)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -89,16 +96,7 @@ func damage(damage: int,reset: bool, direction: int):
 	if frames_since_damage >= GlobalPlayer.immunity_frames:
 		frames_since_damage = 0
 		knockback(direction)
-		if GlobalPlayer.player_health - damage <= 0:
-			respawn_to_spawn()
-		else:
-			GlobalPlayer.player_health - damage
-		
-		if reset:
-			reset()
-		load("res://player/gui.gd").update_gui()
-		print_debug(damage)
-		print_debug(GlobalPlayer.player_health)
+		_set_health(health - damage)
 
 func knockback(direction):
 	velocity.y -= 20
@@ -109,3 +107,15 @@ func reset():
 
 func respawn_to_spawn():
 	pass
+
+func kill():
+	respawn_to_spawn()
+
+func _set_health(value):
+	var prev_health = health
+	health = clamp(value, 0, GlobalPlayer.player_max_health)
+	if health != prev_health:
+		emit_signal("health_updated", health)
+		if health == 0:
+			kill()
+			emit_signal("killed")
