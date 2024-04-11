@@ -34,3 +34,13 @@ position_smoothing_enabled = true
 position_smoothing_speed = 20.0
 
 [node name="GUI" parent="." instance=ExtResource("3_fcywf")]
+
+[node name="invulnerability timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="jump timer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[connection signal="timeout" from="invulnerability timer" to="." method="_on_invulnerability_timer_timeout"]
