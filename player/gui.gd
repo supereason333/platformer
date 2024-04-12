@@ -1,5 +1,18 @@
 extends CanvasLayer
 
+@onready var player = $".."
+
 func update_gui():
-	#get_node("health").text = "HP: " + str(GlobalPlayer.player_health)
-	#get_node("money").text = "Money: " + str(GlobalPlayer.player_money)
+	$"health".text = "HP: " + str(player.health)
+	$"money".text = "Money: " + str(player.money)
+
+func _ready():
+	update_gui()
+
+
+func _on_player_health_updated(health):
+	update_gui()
+
+
+func _on_player_money_updated(money):
+	update_gui()

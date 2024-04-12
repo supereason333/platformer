@@ -43,4 +43,13 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
+[node name="dash timer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="dash cooldown timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="health_updated" from="." to="GUI" method="_on_player_health_updated"]
+[connection signal="money_updated" from="." to="GUI" method="_on_player_money_updated"]
 [connection signal="timeout" from="invulnerability timer" to="." method="_on_invulnerability_timer_timeout"]
