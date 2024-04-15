@@ -9,6 +9,7 @@ const JUMP_VELOCITY = -400.0
 const DASH_VELOCITY = 900
 var jumps_remaining = 0
 var dash_dir = Vector2(0, 0)
+var last_direction = 1
 
 var health = GlobalPlayer.player_max_health: 
 	set(value): 
@@ -60,6 +61,8 @@ func movement():
 			dash_dir.x += 1
 		if Input.is_action_pressed("down_key"):
 			dash_dir.y += 1
+		else:
+			dash_dir.x = last_direction
 		dash_dir = dash_dir.normalized()
 		if dash_dir != Vector2(0, 0) and dash_cooldown_timer.is_stopped():
 			dash_timer.start()
@@ -75,6 +78,7 @@ func handle_direction():
 	var direction = Input.get_axis("left_key", "right_key")
 	if direction:
 		velocity.x = direction * SPEED
+		last_direction = direction
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
@@ -122,3 +126,12 @@ func kill():
 
 func _on_invulnerability_timer_timeout():
 	pass # reset animation
+
+
+func _on_attacked_hitbox_body_entered(body):
+	if body.has_node("damager"):
+		var damage = body.plr_damage
+		var reset = false
+		var direction = (body.position - self.position).normalized()
+		health -= damage
+		print_debug("damaged")

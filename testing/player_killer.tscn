@@ -18,4 +18,6 @@ position = Vector2(4.76837e-07, -8)
 scale = Vector2(0.168421, 0.169014)
 texture = ExtResource("2_tns5b")
 
+[node name="damager" type="Node" parent="."]
+
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

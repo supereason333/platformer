@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://152medcdymy7"]
+[gd_scene load_steps=7 format=3 uid="uid://152medcdymy7"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_f2cj1"]
 [ext_resource type="Texture2D" uid="uid://dqqef5a4ek8al" path="res://player/stickman.png" id="2_10ltk"]
@@ -18,6 +18,9 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_41l8g"]
 radius = 24.0
 height = 112.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a0f51"]
+size = Vector2(57, 112)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_f2cj1")
@@ -50,6 +53,13 @@ one_shot = true
 [node name="dash cooldown timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="attacked hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="attacked hitbox"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_a0f51")
+
 [connection signal="health_updated" from="." to="GUI" method="_on_player_health_updated"]
 [connection signal="money_updated" from="." to="GUI" method="_on_player_money_updated"]
 [connection signal="timeout" from="invulnerability timer" to="." method="_on_invulnerability_timer_timeout"]
+[connection signal="body_entered" from="attacked hitbox" to="." method="_on_attacked_hitbox_body_entered"]
