@@ -9,7 +9,7 @@ size = Vector2(32, 24)
 [node name="player killer" type="Area2D"]
 script = ExtResource("1_jsl0r")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="area" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_mwk6a")
 
@@ -19,5 +19,3 @@ scale = Vector2(0.168421, 0.169014)
 texture = ExtResource("2_tns5b")
 
 [node name="damager" type="Node" parent="."]
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

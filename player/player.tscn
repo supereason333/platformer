@@ -19,8 +19,8 @@ animations = [{
 radius = 24.0
 height = 112.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_a0f51"]
-size = Vector2(57, 112)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvwyg"]
+size = Vector2(66, 114)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_f2cj1")
@@ -38,28 +38,40 @@ position_smoothing_speed = 20.0
 
 [node name="GUI" parent="." instance=ExtResource("3_fcywf")]
 
-[node name="invulnerability timer" type="Timer" parent="."]
-wait_time = 0.25
+[node name="hit detector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit detector"]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_fvwyg")
+
+[node name="timers" type="Node" parent="."]
+
+[node name="invulnerability timer" type="Timer" parent="timers"]
+wait_time = 0.75
 one_shot = true
 
-[node name="jump timer" type="Timer" parent="."]
+[node name="jump timer" type="Timer" parent="timers"]
 wait_time = 0.3
 one_shot = true
 
-[node name="dash timer" type="Timer" parent="."]
+[node name="dash timer" type="Timer" parent="timers"]
 wait_time = 0.25
 one_shot = true
 
-[node name="dash cooldown timer" type="Timer" parent="."]
+[node name="dash cooldown timer" type="Timer" parent="timers"]
 one_shot = true
 
-[node name="attacked hitbox" type="Area2D" parent="."]
+[node name="reset timer" type="Timer" parent="timers"]
+wait_time = 0.6
+one_shot = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="attacked hitbox"]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_a0f51")
+[node name="knockback no controll timer" type="Timer" parent="timers"]
+wait_time = 0.1
 
 [connection signal="health_updated" from="." to="GUI" method="_on_player_health_updated"]
 [connection signal="money_updated" from="." to="GUI" method="_on_player_money_updated"]
-[connection signal="timeout" from="invulnerability timer" to="." method="_on_invulnerability_timer_timeout"]
-[connection signal="body_entered" from="attacked hitbox" to="." method="_on_attacked_hitbox_body_entered"]
+[connection signal="area_entered" from="hit detector" to="." method="_on_hit_detector_area_entered"]
+[connection signal="area_exited" from="hit detector" to="." method="_on_hit_detector_area_exited"]
+[connection signal="timeout" from="timers/invulnerability timer" to="." method="_on_invulnerability_timer_timeout"]
+[connection signal="timeout" from="timers/reset timer" to="." method="_on_reset_timer_timeout"]
+[connection signal="timeout" from="timers/knockback no controll timer" to="." method="_on_knockback_no_controll_timer_timeout"]

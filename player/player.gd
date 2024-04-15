@@ -4,14 +4,21 @@ signal health_updated(health)
 signal killed()
 signal money_updated(money)
 
+# Theres a lot of varibles but i dont give a fuck
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const DASH_VELOCITY = 900
 var jumps_remaining = 0
 var dash_dir = Vector2(0, 0)
 var last_direction = 1
+var inside_damager = false
+var player_in_controll = true
 
-var health = GlobalPlayer.player_max_health: 
+var last_spawnpoint = Vector2(0, 0)
+var last_resetpoint = Vector2(0, 0)
+
+var health = GlobalPlayer.player_max_health: 			# Player health and what happens when it dose the set get
 	set(value): 
 		var prev_health = health
 		health = clamp(value, 0, GlobalPlayer.player_max_health)
@@ -23,7 +30,7 @@ var health = GlobalPlayer.player_max_health:
 	get:
 		return health
 
-var money = 0:
+var money = 0:		# are you poor or rich
 	set(value):
 		var prev_money = money
 		money = value
@@ -32,10 +39,13 @@ var money = 0:
 	get:
 		return money
 
-@onready var invulnerability_timer = $"invulnerability timer"
-@onready var jump_timer = $"jump timer"
-@onready var dash_timer = $"dash timer"
-@onready var dash_cooldown_timer = $"dash cooldown timer"
+@onready var invulnerability_timer = $"timers/invulnerability timer"
+@onready var jump_timer = $"timers/jump timer"
+@onready var dash_timer = $"timers/dash timer"
+@onready var dash_cooldown_timer = $"timers/dash cooldown timer"
+@onready var reset_timer = $"timers/reset timer"
+@onready var knockback_NC_timer = $"timers/knockback no controll timer"
+# name these fuckers better ^^^^^
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -43,13 +53,17 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _ready():
 	pass
 
-func _process(delta):
+func _process(_delta):
 	pass
 
+#***************************************
+#			Physics and movement
+#***************************************
+
 func _physics_process(delta):
+	if player_in_controll: movement()
 	add_gravity(delta)
 	animation()
-	movement()
 	move_and_slide()
 
 func movement():
@@ -97,41 +111,87 @@ func handle_jump():
 	if Input.is_action_just_released("jump_key"):
 		jumps_remaining -= 1
 
-func animation():
-	pass
+func reset_movement():
+	jump_timer.stop()
+	jumps_remaining = 0
+	dash_timer.stop()
+	dash_cooldown_timer.stop()
+	self.velocity *= 0
 
 func add_gravity(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-func damage(damage: int, reset: bool, direction: int):
+func animation():
+	pass
+
+#***********************************
+#			Damage and Violence
+#***********************************
+
+func damage(amount: int, is_reset: bool, direction: int):
 	if invulnerability_timer.is_stopped():
 		invulnerability_timer.start()
 		# play damage and invulrability anim
+		self.modulate = Color(1, 0, 0, 1)
+		
 		knockback(direction)
-		health -= damage
+		if is_reset and health - amount > 0: 
+			reset_timer.start()
+			player_in_controll = false
+		health -= amount
+		self.velocity *= 0
 
-func knockback(direction):
-	velocity.y -= 20
-	velocity.x += 200 * direction
+func _on_hit_detector_area_entered(area):				# to get position of area it is "area.get_node("./name of child").position"
+	print_debug("Entered area " + area.name)
+	if area.has_node("damager"):
+		inside_damager = true
+		damage(area.plr_damage, area.plr_reset, (self.position - area.get_node("./area").position).normalized().x)
+	elif "spawnpoint " in area.name:
+		last_spawnpoint = area.get_node("./area").position
+		print_debug("last spawnpoint is set to: " + str(area.get_node("./area").position))
+	elif "resetpoint " in area.name:
+		last_resetpoint = area.get_node("./area").position
+		print_debug("last resetpoint is set to: " + str(area.get_node("./area").position))
 
-func reset():
-	pass
-
-func respawn_to_spawn():
-	pass
+func _on_hit_detector_area_exited(area):
+	print_debug("Exited area " + area.name)
+	if area.has_node("damager"):
+		inside_damager = false
 
 func kill():
+	health = GlobalPlayer.player_max_health
 	respawn_to_spawn()
 
+#**************************************************
+#			respawns and shit
+#**************************************************
+
+func respawn_to_spawn():
+	self.position = last_spawnpoint
+
+func knockback(direction):				# it knocks the player in a direction and stops them from moving
+	velocity.y = -200
+	velocity.x = 1000 * direction
+	player_in_controll = false
+	knockback_NC_timer.start()
+
+func reset():
+	reset_movement()
+	invulnerability_timer.start()
+	self.position = last_resetpoint
+	player_in_controll = true
+
+
+#**********************************************
+#				TIMER TIMEOUTS AIUOWHDUIAHIWUDHOPWAIU
+#**********************************************
+
+func _on_reset_timer_timeout():
+	reset()
+
+func _on_knockback_no_controll_timer_timeout():
+	player_in_controll = true
+	
 func _on_invulnerability_timer_timeout():
-	pass # reset animation
-
-
-func _on_attacked_hitbox_body_entered(body):
-	if body.has_node("damager"):
-		var damage = body.plr_damage
-		var reset = false
-		var direction = (body.position - self.position).normalized()
-		health -= damage
-		print_debug("damaged")
+	self.modulate = Color(1, 1, 1, 1)	# should reset animation

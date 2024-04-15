@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dhrj613ojghwl"]
+[gd_scene load_steps=9 format=3 uid="uid://dhrj613ojghwl"]
 
 [ext_resource type="PackedScene" uid="uid://152medcdymy7" path="res://player/player.tscn" id="1_ypkco"]
 [ext_resource type="PackedScene" uid="uid://4l7sp86j23r1" path="res://testing/player_killer.tscn" id="2_fr52p"]
+[ext_resource type="PackedScene" uid="uid://butb3r7vh8b3y" path="res://testing/the_killyourself_machine.tscn" id="3_jf5tt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_awtmp"]
 size = Vector2(469, 122)
@@ -11,6 +12,12 @@ size = Vector2(465.25, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x56pk"]
 size = Vector2(136, 144)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gogav"]
+size = Vector2(19.5, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nbv52"]
+radius = 168.19
 
 [node name="world" type="Node2D"]
 
@@ -51,5 +58,48 @@ offset_top = 328.0
 offset_right = 1224.0
 offset_bottom = 472.0
 
+[node name="Panel4" type="Panel" parent="panels"]
+offset_left = 1144.0
+offset_top = 120.0
+offset_right = 1160.0
+offset_bottom = 136.0
+
+[node name="Panel5" type="Panel" parent="panels"]
+offset_left = 312.0
+offset_top = 312.0
+offset_right = 328.0
+offset_bottom = 328.0
+
 [node name="player killer" parent="." instance=ExtResource("2_fr52p")]
 position = Vector2(791, 455)
+
+[node name="spawnpoints" type="Node" parent="."]
+
+[node name="spawnpoint 1" type="Area2D" parent="spawnpoints"]
+
+[node name="area" type="CollisionShape2D" parent="spawnpoints/spawnpoint 1"]
+position = Vector2(320, 320)
+shape = SubResource("RectangleShape2D_gogav")
+
+[node name="spawnpoint 2" type="Area2D" parent="spawnpoints"]
+
+[node name="area" type="CollisionShape2D" parent="spawnpoints/spawnpoint 2"]
+position = Vector2(1152, 128)
+shape = SubResource("RectangleShape2D_gogav")
+
+[node name="resetpoints" type="Node" parent="."]
+
+[node name="resetpoint 1" type="Area2D" parent="resetpoints"]
+
+[node name="area" type="CollisionShape2D" parent="resetpoints/resetpoint 1"]
+position = Vector2(584, 368)
+shape = SubResource("CircleShape2D_nbv52")
+
+[node name="resetpoint 2" type="Area2D" parent="resetpoints"]
+
+[node name="area" type="CollisionShape2D" parent="resetpoints/resetpoint 2"]
+position = Vector2(1152, 264)
+shape = SubResource("CircleShape2D_nbv52")
+
+[node name="the killyourself machine" parent="." instance=ExtResource("3_jf5tt")]
+position = Vector2(384, 384)

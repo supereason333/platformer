@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://butb3r7vh8b3y"]
+
+[sub_resource type="GDScript" id="GDScript_icfyl"]
+script/source = "extends Area2D
+
+@export var plr_damage = 1
+@export var plr_reset = false
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10rh7"]
+
+[node name="the killyourself machine" type="Area2D"]
+script = SubResource("GDScript_icfyl")
+
+[node name="area" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_10rh7")
+
+[node name="damager" type="Node" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = -138.0
+offset_top = -40.0
+offset_right = 4.0
+offset_bottom = -14.0
+text = "Kill yourself here ↓"
