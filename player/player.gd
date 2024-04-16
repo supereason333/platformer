@@ -1,10 +1,11 @@
 extends CharacterBody2D
 
 signal health_updated(health)
-signal killed()
+signal killed()				# got fucked
 signal money_updated(money)
 
 # Theres a lot of varibles but i dont give a fuck
+# not really when i think about it again
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -12,8 +13,7 @@ const DASH_VELOCITY = 900
 var jumps_remaining = 0
 var dash_dir = Vector2(0, 0)
 var last_direction = 1
-var inside_damager = false
-var player_in_controll = true
+var in_controll = true		# can the player move (MAKE A FUNCTION FOR THIS THAT HAS A TALLY SO YOU CAN ADD/DECREASE SO THE SETTING CAN STACK)
 
 var last_spawnpoint = Vector2(0, 0)
 var last_resetpoint = Vector2(0, 0)
@@ -61,7 +61,7 @@ func _process(_delta):
 #***************************************
 
 func _physics_process(delta):
-	if player_in_controll: movement()
+	if in_controll: movement()
 	add_gravity(delta)
 	animation()
 	move_and_slide()
@@ -97,15 +97,18 @@ func handle_direction():
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 func handle_jump():
-	if is_on_floor() and !Input.is_action_pressed("jump_key") and jumps_remaining != GlobalPlayer.player_jumps:
+	# yeah hopw the jump wprks im not gonna expain it that much
+	if is_on_floor() and !Input.is_action_pressed("jump_key") and jumps_remaining != GlobalPlayer.player_jumps:		# you are touching the ground --> reset jumps
 		jumps_remaining = GlobalPlayer.player_jumps
 
-	if Input.is_action_pressed("jump_key") and jumps_remaining > 0 and !jump_timer.is_stopped():
+	if Input.is_action_pressed("jump_key") and jumps_remaining > 0 and !jump_timer.is_stopped() and velocity.y != 0:# keep jumping
 		velocity.y = JUMP_VELOCITY
-	elif Input.is_action_just_pressed("jump_key") and jumps_remaining > 0 and jump_timer.is_stopped():
+	elif Input.is_action_just_pressed("jump_key") and jumps_remaining > 0 and jump_timer.is_stopped():				# initiate jumping / first jump
 		velocity.y = JUMP_VELOCITY
 		jump_timer.start()
-	elif Input.is_action_just_released("jump_key") and velocity.y <= 30:
+	elif !jump_timer.is_stopped() and velocity.y == 0:																# hit your head owie
+		jump_timer.stop()
+	elif Input.is_action_just_released("jump_key") and velocity.y <= 30:											# make you go down for better controll in jump
 		velocity.y += 300
 	
 	if Input.is_action_just_released("jump_key"):
@@ -138,26 +141,23 @@ func damage(amount: int, is_reset: bool, direction: int):
 		knockback(direction)
 		if is_reset and health - amount > 0: 
 			reset_timer.start()
-			player_in_controll = false
+		if is_reset: in_controll = false
 		health -= amount
 		self.velocity *= 0
 
-func _on_hit_detector_area_entered(area):				# to get position of area it is "area.get_node("./name of child").position"
+func _on_hit_detector_area_entered(area):				# to get position of area it is "area.position"
 	print_debug("Entered area " + area.name)
-	if area.has_node("damager"):
-		inside_damager = true
-		damage(area.plr_damage, area.plr_reset, (self.position - area.get_node("./area").position).normalized().x)
-	elif "spawnpoint " in area.name:
-		last_spawnpoint = area.get_node("./area").position
-		print_debug("last spawnpoint is set to: " + str(area.get_node("./area").position))
-	elif "resetpoint " in area.name:
-		last_resetpoint = area.get_node("./area").position
-		print_debug("last resetpoint is set to: " + str(area.get_node("./area").position))
+	if area.has_node("damager"):		# all damage things like spikes and damage hitboxes should have a node called "damager" and "(int) plr_damage" and "(bool) plr_reset"
+		damage(area.plr_damage, area.plr_reset, (self.position - area.get_node("./area").position).normalized().x)		# i cut my life into pieces
+	elif "spawnpoint" in area.name:					# inside checkpoints and shit
+		last_spawnpoint = area.position
+		print_debug("last spawnpoint is set to: " + str(area.position))
+	elif "resetpoint" in area.name:
+		last_resetpoint = area.position
+		print_debug("last resetpoint is set to: " + str(area.position))
 
 func _on_hit_detector_area_exited(area):
 	print_debug("Exited area " + area.name)
-	if area.has_node("damager"):
-		inside_damager = false
 
 func kill():
 	health = GlobalPlayer.player_max_health
@@ -168,20 +168,19 @@ func kill():
 #**************************************************
 
 func respawn_to_spawn():
+	in_controll = true
 	self.position = last_spawnpoint
 
-func knockback(direction):				# it knocks the player in a direction and stops them from moving
+func knockback(direction):				# it knocks the player in a direction and stops them from moving (DOSENT WORK)
 	velocity.y = -200
 	velocity.x = 1000 * direction
-	player_in_controll = false
 	knockback_NC_timer.start()
 
-func reset():
+func reset():							# respawn to last resetpoint
+	in_controll = true
 	reset_movement()
 	invulnerability_timer.start()
 	self.position = last_resetpoint
-	player_in_controll = true
-
 
 #**********************************************
 #				TIMER TIMEOUTS AIUOWHDUIAHIWUDHOPWAIU
@@ -191,7 +190,7 @@ func _on_reset_timer_timeout():
 	reset()
 
 func _on_knockback_no_controll_timer_timeout():
-	player_in_controll = true
+	pass
 	
 func _on_invulnerability_timer_timeout():
-	self.modulate = Color(1, 1, 1, 1)	# should reset animation
+	self.modulate = Color(1, 1, 1, 1)	# should reset animation (it dosent cus theres no animation to reset)

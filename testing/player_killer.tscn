@@ -4,13 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://dkmfeanjn22sv" path="res://testing/Regular_Spike.webp" id="2_tns5b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mwk6a"]
-size = Vector2(32, 24)
+size = Vector2(38, 40)
 
 [node name="player killer" type="Area2D"]
 script = ExtResource("1_jsl0r")
 
 [node name="area" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_mwk6a")
 
 [node name="RegularSpike" type="Sprite2D" parent="."]

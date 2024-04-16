@@ -16,17 +16,18 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_41l8g"]
-radius = 24.0
-height = 112.0
+radius = 21.0
+height = 80.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fvwyg"]
-size = Vector2(66, 114)
+size = Vector2(46, 81)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_f2cj1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(0.211921, 0.211921)
+position = Vector2(-1.19209e-07, 0)
+scale = Vector2(0.139073, 0.143113)
 sprite_frames = SubResource("SpriteFrames_ftwh5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -41,7 +42,7 @@ position_smoothing_speed = 20.0
 [node name="hit detector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hit detector"]
-position = Vector2(-1, -1)
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_fvwyg")
 
 [node name="timers" type="Node" parent="."]

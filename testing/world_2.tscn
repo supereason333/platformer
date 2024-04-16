@@ -1,0 +1,133 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3uv8wxvq6cur"]
+
+[ext_resource type="PackedScene" uid="uid://152medcdymy7" path="res://player/player.tscn" id="1_hxpmi"]
+[ext_resource type="PackedScene" uid="uid://dacqxh0yylglw" path="res://player/spawnpoints/spawnpoint.tscn" id="2_0gf2o"]
+[ext_resource type="PackedScene" uid="uid://vcud005nc8le" path="res://player/spawnpoints/resetpoint.tscn" id="3_lnirb"]
+[ext_resource type="PackedScene" uid="uid://butb3r7vh8b3y" path="res://testing/the_killyourself_machine.tscn" id="4_lm04k"]
+[ext_resource type="PackedScene" uid="uid://4l7sp86j23r1" path="res://testing/player_killer.tscn" id="5_surqu"]
+
+[sub_resource type="GDScript" id="GDScript_yv8o0"]
+script/source = "extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+func _on_spin_box_value_changed(value):
+	GlobalPlayer.player_jumps = int(value)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y86fj"]
+size = Vector2(2880, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6awfe"]
+size = Vector2(232, 72)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jtty6"]
+size = Vector2(16, 360)
+
+[node name="world2" type="Node2D"]
+script = SubResource("GDScript_yv8o0")
+
+[node name="player" parent="." instance=ExtResource("1_hxpmi")]
+position = Vector2(128, 536)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1440, 672)
+shape = SubResource("RectangleShape2D_y86fj")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(412, 604)
+shape = SubResource("RectangleShape2D_6awfe")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-8, 524)
+shape = SubResource("RectangleShape2D_jtty6")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1440, 376)
+shape = SubResource("RectangleShape2D_y86fj")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(756, 604)
+shape = SubResource("RectangleShape2D_6awfe")
+
+[node name="panels" type="Node" parent="."]
+
+[node name="Panel" type="Panel" parent="panels"]
+offset_top = 640.0
+offset_right = 2880.0
+offset_bottom = 704.0
+
+[node name="Panel2" type="Panel" parent="panels"]
+offset_top = 344.0
+offset_right = 2880.0
+offset_bottom = 408.0
+
+[node name="Panel3" type="Panel" parent="panels"]
+offset_left = -16.0
+offset_top = 344.0
+offset_bottom = 704.0
+
+[node name="Panel4" type="Panel" parent="panels"]
+offset_left = 296.0
+offset_top = 568.0
+offset_right = 528.0
+offset_bottom = 640.0
+
+[node name="Panel5" type="Panel" parent="panels"]
+offset_left = 640.0
+offset_top = 568.0
+offset_right = 872.0
+offset_bottom = 640.0
+
+[node name="spawnpoints" type="Node" parent="."]
+
+[node name="spawnpoint" parent="spawnpoints" instance=ExtResource("2_0gf2o")]
+position = Vector2(128, 576)
+
+[node name="resetpoints" type="Node" parent="."]
+
+[node name="resetpoint" parent="resetpoints" instance=ExtResource("3_lnirb")]
+position = Vector2(128, 576)
+
+[node name="resetpoint2" parent="resetpoints" instance=ExtResource("3_lnirb")]
+position = Vector2(344, 512)
+
+[node name="damagers" type="Node" parent="."]
+
+[node name="the killyourself machine" parent="damagers" instance=ExtResource("4_lm04k")]
+position = Vector2(280, 624)
+
+[node name="player killer" parent="damagers" instance=ExtResource("5_surqu")]
+position = Vector2(552, 624)
+
+[node name="player killer2" parent="damagers" instance=ExtResource("5_surqu")]
+position = Vector2(608, 624)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 424.0
+offset_right = 103.0
+offset_bottom = 490.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "jumps you have"
+
+[node name="SpinBox" type="SpinBox" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "stop typing"
+
+[connection signal="value_changed" from="VBoxContainer/SpinBox" to="." method="_on_spin_box_value_changed"]

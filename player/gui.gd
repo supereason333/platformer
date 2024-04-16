@@ -9,7 +9,6 @@ func update_gui():
 func _ready():
 	update_gui()
 
-
 func _on_player_health_updated(_health):
 	update_gui()
 
