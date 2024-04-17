@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvig5a33j0r5d"]
+[gd_scene load_steps=2 format=3 uid="uid://beo3n1rgpp3ro"]
 
-[ext_resource type="Script" path="res://player/gui.gd" id="1_h6ydo"]
+[ext_resource type="Script" path="res://player/gui.gd" id="1_rajej"]
 
 [node name="GUI" type="CanvasLayer"]
-script = ExtResource("1_h6ydo")
+script = ExtResource("1_rajej")
 
 [node name="health" type="Label" parent="."]
 offset_left = 24.0

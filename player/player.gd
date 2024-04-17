@@ -194,3 +194,10 @@ func _on_knockback_no_controll_timer_timeout():
 	
 func _on_invulnerability_timer_timeout():
 	self.modulate = Color(1, 1, 1, 1)	# should reset animation (it dosent cus theres no animation to reset)
+
+#***************************************
+#				DEBUG MENU
+#***************************************
+
+func _on_debug_menu_debug_player_set_health(value):
+	health = value

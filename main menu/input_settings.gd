@@ -13,7 +13,8 @@ var input_actions = {
 	"up_key": "Up",
 	"down_key": "Down",
 	"dash_key": "Dash",
-	"jump_key": "Jump"
+	"jump_key": "Jump",
+	"debug_menu_toggle_key": "Debug Menu"
 }
 
 func _ready():

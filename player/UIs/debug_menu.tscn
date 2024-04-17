@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfm88hyvnxbhl"]
+
+[ext_resource type="Script" path="res://player/UIs/debug_menu.gd" id="1_42ime"]
+
+[node name="debug menu" type="CanvasLayer"]
+script = ExtResource("1_42ime")
+
+[node name="jump box container" type="VBoxContainer" parent="."]
+offset_left = 192.0
+offset_top = 40.0
+offset_right = 287.0
+offset_bottom = 106.0
+
+[node name="Label" type="Label" parent="jump box container"]
+layout_mode = 2
+text = "jumps you have"
+
+[node name="SpinBox" type="SpinBox" parent="jump box container"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="jump box container"]
+layout_mode = 2
+text = "stop typing"
+
+[node name="health box" type="VBoxContainer" parent="."]
+offset_left = 344.0
+offset_top = 40.0
+offset_right = 466.0
+offset_bottom = 206.0
+
+[node name="Label" type="Label" parent="health box"]
+layout_mode = 2
+text = "set health player"
+
+[node name="health set" type="SpinBox" parent="health box"]
+layout_mode = 2
+
+[node name="set health" type="Button" parent="health box"]
+layout_mode = 2
+text = "set health"
+
+[node name="set max health" type="Button" parent="health box"]
+layout_mode = 2
+text = "set max health"
+
+[node name="restore health" type="Button" parent="health box"]
+layout_mode = 2
+text = "restore health"
+
+[node name="kill" type="Button" parent="health box"]
+layout_mode = 2
+text = "kill self"
+
+[connection signal="value_changed" from="jump box container/SpinBox" to="." method="_on_spin_box_value_changed"]
+[connection signal="value_changed" from="health box/health set" to="." method="_on_health_set_value_changed"]
+[connection signal="pressed" from="health box/set health" to="." method="_on_set_health_pressed"]
+[connection signal="pressed" from="health box/set max health" to="." method="_on_set_max_health_pressed"]
+[connection signal="pressed" from="health box/restore health" to="." method="_on_restore_health_pressed"]
+[connection signal="pressed" from="health box/kill" to="." method="_on_kill_pressed"]
