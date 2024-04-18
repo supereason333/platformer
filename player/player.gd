@@ -7,6 +7,8 @@ signal money_updated(money)
 # Theres a lot of varibles but i dont give a fuck
 # not really when i think about it again
 
+var hit_damage = 10
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const DASH_VELOCITY = 900
@@ -54,7 +56,8 @@ func _ready():
 	pass
 
 func _process(_delta):
-	pass
+	
+	animation()
 
 #***************************************
 #			Physics and movement
@@ -63,7 +66,6 @@ func _process(_delta):
 func _physics_process(delta):
 	if in_controll: movement()
 	add_gravity(delta)
-	animation()
 	move_and_slide()
 
 func movement():
@@ -162,6 +164,10 @@ func _on_hit_detector_area_exited(area):
 func kill():
 	health = GlobalPlayer.player_max_health
 	respawn_to_spawn()
+
+#***********Subsection: attacks********************
+
+# ummmmm attack??? idk this needs code i think
 
 #**************************************************
 #			respawns and shit

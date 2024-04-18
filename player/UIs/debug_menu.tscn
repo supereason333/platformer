@@ -6,12 +6,13 @@
 script = ExtResource("1_42ime")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-anchors_preset = -1
 offset_right = 304.0
 offset_bottom = 201.0
 
 [node name="Button" type="Button" parent="HBoxContainer"]
 layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 13
 text = "drag"
 
 [node name="jump box container" type="VBoxContainer" parent="HBoxContainer"]
@@ -26,6 +27,7 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="HBoxContainer/jump box container"]
 layout_mode = 2
+focus_mode = 1
 text = "stop typing"
 
 [node name="health box" type="VBoxContainer" parent="HBoxContainer"]
@@ -40,18 +42,22 @@ layout_mode = 2
 
 [node name="set health" type="Button" parent="HBoxContainer/health box"]
 layout_mode = 2
+focus_mode = 0
 text = "set health"
 
 [node name="set max health" type="Button" parent="HBoxContainer/health box"]
 layout_mode = 2
+focus_mode = 0
 text = "set max health"
 
 [node name="restore health" type="Button" parent="HBoxContainer/health box"]
 layout_mode = 2
+focus_mode = 0
 text = "restore health"
 
 [node name="kill" type="Button" parent="HBoxContainer/health box"]
 layout_mode = 2
+focus_mode = 0
 text = "kill self"
 
 [connection signal="button_down" from="HBoxContainer/Button" to="." method="_on_button_button_down"]

@@ -97,7 +97,10 @@ position = Vector2(128, 576)
 position = Vector2(128, 576)
 
 [node name="resetpoint2" parent="resetpoints" instance=ExtResource("3_lnirb")]
-position = Vector2(344, 512)
+position = Vector2(352, 512)
+
+[node name="resetpoint3" parent="resetpoints" instance=ExtResource("3_lnirb")]
+position = Vector2(816, 512)
 
 [node name="damagers" type="Node" parent="."]
 
